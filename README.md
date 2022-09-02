@@ -1,4 +1,7 @@
 # OreUIShim
+
+*(C) Luminoso 2022 / MIT Licensed. Contributions Welcome!*
+
 A small shim JS file to experiment with oreUI in the browser.
 
 ## How to use
