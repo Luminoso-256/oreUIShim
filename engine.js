@@ -4,9 +4,12 @@ engine.js
 pretend to be the bedrock engine for oreUI's sake
 (C) Luminoso 2022 / MIT Licensed
 */
-console.log(
-  "OreUIShim Injected. NOTE: This *will* screw with running these same files in game!"
-);
+
+if (navigator.userAgent.match("/cohtml/i")) {
+  console.warn(
+    "[EngineWrapper] OreUI Shim Injected, but the UI is being loaded in gameface!"
+  );
+}
 
 const USE_TRANSLATIONS = true; //requires a loc.lang at base of host dir
 
@@ -19,9 +22,149 @@ const _ME_AchievementsFacet = {
     achievementsUnlocked: 23,
     maxGamerScore: 100,
     hoursPlayed: 100,
-    achievements: [],
+    achievements: [
+      {
+        id: 0,
+        name: "Placeholder Achievement",
+        description: "Placeholderr!",
+        gamerScore: 30,
+        progress: 0,
+        progressTarget: 256,
+        isLocked: false,
+        isSecret: false,
+        dateUnlocked: 0,
+        hasReward: true,
+        rewardName: "some reward name",
+        isRewardOwned: false,
+      },
+    ],
     currentGamerScore: 100,
     maxAchievements: 200,
+  },
+};
+
+//CNW screen breaks even more without these three but doesn't *yet* call anything from em so...
+const _ME_CreateNewWorldBetaFacet = {};
+const _ME_UserAccountFacet = {};
+const _ME_BuildSettingsFacet = {};
+
+const _ME_TelemetryFacet = {
+  fireEventButtonPressed: function (event) {
+    console.log(`[EngineWrapper/VanillaTelem] EventButtonPressed: ${event}`);
+  },
+};
+const _ME_ResourcePacksFacet = {
+  texturePacks: {
+    activeGlobal: [],
+    active: [],
+    available: [],
+    realms: [],
+    unowned: [],
+  },
+  behaviorPacks: {
+    active: [],
+    available: [],
+  },
+  status: 0,
+  marketplacePackId: "1",
+  userOwnsAtLeastOnePack: true,
+  prompt: {
+    actions: [],
+    active: !1,
+    body: "",
+    handleAction: () => {
+      console.log("[EngineWrapper/RPFacet] prompt.handleAction()");
+    },
+    id: "prompt",
+    title: "",
+  },
+  activate: () => {
+    console.log("[EngineWrapper/RPFacet] activate()");
+  },
+  deactivate: () => {
+    console.log("[EngineWrapper/RPFacet] deactivate()");
+  },
+};
+const _ME_VanillaOptionsFacet = {};
+
+const _ME_CreateNewWorldFacet = {
+  isEditorWorld: false,
+  isUsingTemplate: false,
+  isLockedTemplate: false,
+  generalWarningState: 0,
+  showedAchievementWarning: false,
+  applyTemplate: {
+    bind: function (a) {
+      console.log("[EngineWrapper/CNWFacet] applyTemplate.bind()");
+    },
+  },
+  createOnRealms: {
+    call: function () {
+      console.log("[EngineWrapper/CNWFacet] createOnRealms.call()");
+    },
+    error: null,
+  },
+  worldCreationData: {
+    general: {
+      worldName: "Some World",
+      difficulty: 0,
+      gameMode: 0,
+    },
+    advanced: {
+      useFlatWorld: false,
+      simulationDistance: 8,
+      startWithMap: false,
+      bonusChest: false,
+      showCoordinates: false,
+      firesSpreads: true,
+      tntExplodes: true,
+      respawnBlocksExplode: true,
+      mobLoot: true,
+      naturalRegeneration: true,
+      tileDrops: true,
+      immediateRespawn: true,
+      respawnRadius: "5", // Why would anyone in their right mind make this a STRING?!
+      worldSeed: "",
+    },
+    cheats: {
+      cheatsEnabled: false,
+    },
+    betaFeatures: [
+      {
+        id: "0",
+        title: "Gameplay Experiment",
+        description: "Riveting Gameplay Awaits!",
+        isEnabled: false,
+        category: 0,
+      },
+      {
+        id: "1",
+        title: "AddOn Experiment",
+        description: "The Holiday Features that never were...",
+        isEnabled: false,
+        category: 1,
+      },
+      {
+        id: "2",
+        title: "Internal Experiment",
+        description: "oooOOOoo Seecreet!",
+        isEnabled: false,
+        category: 2,
+      },
+    ],
+    multiplayer: {
+      generalWarningState: 0,
+      multiplayerSupported: true,
+      playerPermissions: 1,
+      multiplayerGame: true,
+      playerAccess: 1,
+      visibleToLanPlayers: true,
+      friendlyFire: true,
+      platformPlayerAccess: 1,
+      platformPlayerAccessSupported: true,
+      platformPlayerAccessEnabled: true,
+      platformPlayerInviteAccessSupported: true,
+    },
   },
 };
 
@@ -66,7 +209,7 @@ const _ME_RouterFacet = {
       hash: "",
       search: "",
       state: "",
-      pathname: "/achievements",
+      pathname: "/create-new-world",
     },
     _ME_previousLocations: [],
     length: 5,
@@ -83,6 +226,8 @@ const _ME_RouterFacet = {
       console.log("[EngineWrapper/RouterFacet] goingBack.");
       this.location.pathname =
         this._ME_previousLocations[this._ME_previousLocations.length - 2];
+      _ME_OnBindings[`facet:updated:core.router`](_ME_Facets["core.router"]);
+      this._ME_previousLocations.pop();
     },
     push: function (path) {
       this.action = "PUSH";
@@ -116,6 +261,15 @@ const _ME_SplitScreenFacet = {
 
 const _ME_FeatureFlagsFacet = {
   flags: [
+    "facet",
+    "core.deviceInformation",
+    "core.input",
+    "core.locale",
+    "core.router",
+    "core.safeZone",
+    "core.screenReader",
+    "core.splitScreen",
+    "vanilla.achievements",
     "vanilla.enableSeedTemplates",
     "vanilla.enableBehaviorPacksTab",
     "vanilla.enableResourcePacksTab",
@@ -153,6 +307,13 @@ let _ME_Facets = {
   "core.sound": _ME_SoundFacet,
   // == Vanilla Facets == //
   "vanilla.achievements": _ME_AchievementsFacet,
+  "vanilla.createNewWorld": _ME_CreateNewWorldFacet,
+  "vanilla.telemetry": _ME_TelemetryFacet,
+  "vanilla.createNewWorldBeta": _ME_CreateNewWorldBetaFacet,
+  "vanilla.userAccount": _ME_UserAccountFacet,
+  "vanilla.buildSettings": _ME_BuildSettingsFacet,
+  "vanilla.resourcePacks": _ME_ResourcePacksFacet,
+  "vanilla.options": _ME_VanillaOptionsFacet,
 };
 
 const TriggerEvent = {
@@ -198,11 +359,9 @@ const engine = {
   RemoveOnHandler: function (id, func, unk) {
     console.log(`[EngineWrapper] RemoveOnHandler for ID ${id}. func: ${func}`);
   },
-  AddOrRemoveOffHandler: function (id, func, unk) {
+  AddOrRemoveOffHandler: function (id) {
     console.log(
-      `[EngineWrapper] AddOrRemoveOffHandler w/ ID: ${JSON.stringify(
-        id
-      )}, Function: ${func}`
+      `[EngineWrapper] AddOrRemoveOffHandler w/ ID: ${JSON.stringify(id)}`
     );
     return true;
   },
@@ -232,5 +391,4 @@ if (USE_TRANSLATIONS) {
 }
 
 engine.TriggerEvent = TriggerEvent;
-
 window.engine = engine;
