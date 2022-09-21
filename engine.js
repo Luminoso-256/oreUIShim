@@ -307,25 +307,19 @@ const _ME_RealmsStoriesFacet = {
   data: {
     stories: [
       {
-        id: 0,
+        id: 1,
         isNewStoryPost: true,
-        body: "This is a test!",
+        body: "Hello!",
         image: "/hbui/assets/world-preview-default-d72bc.jpg",
         author: {
-          gamerTag: "Mojang",
+          gamerTag: "SomeoneRandom",
         },
-        timePosted: "2022-01-01",
+        timePosted: "Idk maybe 2022-01-01",
         totalComments: 1,
         totalLikes: 1,
         comments: [
           {
-            body: "This a comment",
-            author: {
-              gamerTag: "SomeoneRandom",
-            },
-          },
-          {
-            body: "WoW Comments!",
+            body: "How did you get access to this?",
             author: {
               gamerTag: "Mojang",
             },
