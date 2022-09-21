@@ -312,7 +312,7 @@ const _ME_RealmsStoriesFacet = {
         body: "This is a test!",
         image: "/hbui/assets/world-preview-default-d72bc.jpg",
         author: {
-		      gamerTag: "Mojang",
+          gamerTag: "Mojang",
         },
         timePosted: "2022-01-01",
         totalComments: 1,
@@ -323,17 +323,17 @@ const _ME_RealmsStoriesFacet = {
             author: {
               gamerTag: "SomeoneRandom",
             },
-			    },
-			    {
+          },
+          {
             body: "WoW Comments!",
             author: {
               gamerTag: "Mojang",
             },
-			    }
-		    ],
-		  },
-	  ],
-	  members: [
+          }
+        ],
+      },
+    ],
+    members: [
       {
         gamerTag: "Mojang",
         isOnline: true,
@@ -352,103 +352,103 @@ const _ME_RealmsStoriesFacet = {
         recentSessions: [],
       },
     ],
-	},
+  },
 };
 
 const _ME_PlayerMessagingServiceFacet = {
-	data: {
-		messages: [
-			{
-				id: "0",
-				template: "ImageText",
-				surface: "LoginAnnouncement",
-				additionalProperties: [
-					{
-						key: "header",
-						value: "Test",
-					},
-					{
-						key: "body",
-						value: "Test",
-					},
-				],
-				images: [
-					{
-						id: "Primary",
-						isLoaded: true,
-						url: "/hbui/assets/world-preview-default-d72bc.jpg",
-					},
-				],
-				buttons: [
-					{
-						id: "Dismiss",
-						text: "Test",
-					},
-				],
-			},
-			{
-				id: "1",
-				template: "ImageThumbnailCTA",
-				surface: "LoginAnnouncement",
-				additionalProperties: [
-					{
-						key: "header",
-						value: "Hello World!",
-					},
-					{
-						key: "body",
-						value: "This is just a test!",
-					},
-				],
-				images: [
-					{
-						id: "Primary",
-						isLoaded: true,
-						url: "/hbui/assets/world-preview-default-d72bc.jpg",
-					},
+  data: {
+    messages: [
+      {
+        id: "0",
+        template: "ImageText",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
           {
-						id: "Secondary",
-						isLoaded: true,
-						url: "/hbui/assets/world-preview-default-d72bc.jpg",
-					},
-				],
-				buttons: [
-					{
-						id: "CallToAction",
-						text: "Hello?",
-					},
-				],
-			},
-			{
-				id: "2",
-				template: "HeroImageCTA",
-				surface: "LoginAnnouncement",
-				additionalProperties: [
-					{
-						key: "header",
-						value: "Hello World!",
-					},
-					{
-						key: "body",
-						value: "This is just a test!",
-					},
-				],
-				images: [
-					{
-						id: "Primary",
-						isLoaded: true,
-						url: "/hbui/assets/world-preview-default-d72bc.jpg",
-					},
-				],
-				buttons: [
-					{
-						id: "CallToAction",
-						text: "Hello?",
-					},
-				],
-			},
-		],
-	},
+            key: "header",
+            value: "Test",
+          },
+          {
+            key: "body",
+            value: "Test",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "Dismiss",
+            text: "Test",
+          },
+        ],
+      },
+      {
+        id: "1",
+        template: "ImageThumbnailCTA",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
+          {
+            key: "header",
+            value: "Hello World!",
+          },
+          {
+            key: "body",
+            value: "This is just a test!",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+          {
+            id: "Secondary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "CallToAction",
+            text: "Hello?",
+          },
+        ],
+      },
+      {
+        id: "2",
+        template: "HeroImageCTA",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
+          {
+            key: "header",
+            value: "Hello World!",
+          },
+          {
+            key: "body",
+            value: "This is just a test!",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "CallToAction",
+            text: "Hello?",
+          },
+        ],
+      },
+    ],
+  },
 };
 
 let _ME_Facets = {
@@ -473,8 +473,8 @@ let _ME_Facets = {
   "vanilla.resourcePacks": _ME_ResourcePacksFacet,
   "vanilla.options": _ME_VanillaOptionsFacet,
   "vanilla.seedTemplates": _ME_SeedTemplatesFacet,
-  "vanilla.realmsStories": _ME_RealmsStoriesFacet,
   "vanilla.playermessagingservice": _ME_PlayerMessagingServiceFacet,
+  "vanilla.realmsStories": _ME_RealmsStoriesFacet,
 };
 
 const TriggerEvent = {
