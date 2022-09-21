@@ -292,6 +292,158 @@ const _ME_DeviceInfoFacet = {
   platform: 3, //TODO: Figure out platforms
   guiScaleModifier: -1,
 };
+  
+const _ME_RealmsStoriesFacet = {
+  data: {
+    stories: [
+      {
+        id: 1,
+        isNewStoryPost: true,
+        body: "Hello!",
+        image: "/hbui/assets/world-preview-default-d72bc.jpg",
+        author: {
+          gamerTag: "SomeoneRandom",
+        },
+        timePosted: "Idk maybe 2022-01-01",
+        totalComments: 1,
+        totalLikes: 1,
+        comments: [
+          {
+            body: "How did you get access to this?",
+            author: {
+              gamerTag: "Mojang",
+            },
+          }
+        ],
+      },
+    ],
+    members: [
+      {
+        gamerTag: "Mojang",
+        isOnline: true,
+        role: 2,
+        profileStatus: 1,
+        recentSessionsStatus: 1,
+        recentSessions: [],
+      },
+      {
+        gamerTag: "SomeoneRandom",
+        gamerIcon: "/hbui/assets/minecraft-texture-pack-31669.png",
+        isOnline: false,
+        role: 1,
+        profileStatus: 1,
+        recentSessionsStatus: 1,
+        recentSessions: [],
+      },
+    ],
+  },
+};
+
+const _ME_SeedTemplatesFacet = {
+  templates: [
+    {
+      seedValue: "0",
+      title: "The Nothing Seed",
+      image: "/hbui/assets/world-preview-default-d72bc.jpg",
+    }
+  ],
+};
+
+const _ME_PlayerMessagingServiceFacet = {
+  data: {
+    messages: [
+      {
+        id: "0",
+        template: "ImageText",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
+          {
+            key: "header",
+            value: "Test",
+          },
+          {
+            key: "body",
+            value: "Test",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "Dismiss",
+            text: "Test",
+          },
+        ],
+      },
+      {
+        id: "1",
+        template: "ImageThumbnailCTA",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
+          {
+            key: "header",
+            value: "Hello World!",
+          },
+          {
+            key: "body",
+            value: "This is just a test!",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+          {
+            id: "Secondary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "CallToAction",
+            text: "Hello?",
+          },
+        ],
+      },
+      {
+        id: "2",
+        template: "HeroImageCTA",
+        surface: "LoginAnnouncement",
+        additionalProperties: [
+          {
+            key: "header",
+            value: "Hello World!",
+          },
+          {
+            key: "body",
+            value: "This is just a test!",
+          },
+        ],
+        images: [
+          {
+            id: "Primary",
+            isLoaded: true,
+            url: "/hbui/assets/world-preview-default-d72bc.jpg",
+          },
+        ],
+        buttons: [
+          {
+            id: "CallToAction",
+            text: "Hello?",
+          },
+        ],
+      },
+    ],
+  },
+};
 
 const _ME_SeedTemplatesFacet = {
 	templates: [
@@ -360,6 +512,7 @@ let _ME_Facets = {
   "vanilla.options": _ME_VanillaOptionsFacet,
   "vanilla.seedTemplates": _ME_SeedTemplatesFacet,
   "vanilla.realmsStories": _ME_RealmsStoriesFacet,
+  "vanilla.playermessagingservice": _ME_PlayerMessagingServiceFacet,
 };
 
 const TriggerEvent = {
