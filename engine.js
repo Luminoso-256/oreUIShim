@@ -469,6 +469,7 @@ let _ME_Facets = {
   "vanilla.seedTemplates": _ME_SeedTemplatesFacet,
   "vanilla.realmsStories": _ME_RealmsStoriesFacet,
   "vanilla.playermessagingservice": _ME_PlayerMessagingServiceFacet,
+  
 };
 
 const TriggerEvent = {
