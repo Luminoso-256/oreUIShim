@@ -292,16 +292,6 @@ const _ME_DeviceInfoFacet = {
   platform: 3, //TODO: Figure out platforms
   guiScaleModifier: -1,
 };
-
-const _ME_SeedTemplatesFacet = {
-	templates: [
-      {
-        seedValue: "0",
-        title: "The Nothing Seed",
-        image: "/hbui/assets/world-preview-default-d72bc.jpg",
-      }
-	],
-};
   
 const _ME_RealmsStoriesFacet = {
   data: {
@@ -347,6 +337,16 @@ const _ME_RealmsStoriesFacet = {
       },
     ],
   },
+};
+
+const _ME_SeedTemplatesFacet = {
+  templates: [
+    {
+      seedValue: "0",
+      title: "The Nothing Seed",
+      image: "/hbui/assets/world-preview-default-d72bc.jpg",
+    }
+  ],
 };
 
 const _ME_PlayerMessagingServiceFacet = {
@@ -466,9 +466,9 @@ let _ME_Facets = {
   "vanilla.buildSettings": _ME_BuildSettingsFacet,
   "vanilla.resourcePacks": _ME_ResourcePacksFacet,
   "vanilla.options": _ME_VanillaOptionsFacet,
+  "vanilla.realmsStories": _ME_RealmsStoriesFacet,
   "vanilla.seedTemplates": _ME_SeedTemplatesFacet,
   "vanilla.playermessagingservice": _ME_PlayerMessagingServiceFacet,
-  "vanilla.realmsStories": _ME_RealmsStoriesFacet,
 };
 
 const TriggerEvent = {
