@@ -194,6 +194,14 @@ const _ME_LocaleFacet = {
 
 const _ME_SoundFacet = {
   play: function (id) {
+    fetch("/hbui/sound_definitions.json")
+    .then((response) => response.json())
+    .then((sounddat) => {
+      if(sounddat[id] && sounddat[id].sounds.length != false) {
+        let randomSound = sounddat[id].sounds[Math.floor(Math.random() * sounddat[id].sounds.length)].name;
+        new Audio(randomSound).play();
+      }
+    });
     console.log(`[EngineWrapper/SoundFacet] Sound ${id} requested.`);
   },
 };
