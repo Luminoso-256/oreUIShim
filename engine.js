@@ -44,9 +44,19 @@ const _ME_AchievementsFacet = {
 };
 
 //CNW screen breaks even more without these three but doesn't *yet* call anything from em so...
-const _ME_CreateNewWorldBetaFacet = {};
+const _ME_CreateNewWorldBetaFacet = {
+  isBetaSupported: true,
+  openFeedbackPage: function () {
+    console.log(`[EngineWrapper/CNWBetaFacet] openFeedbackPage()`);
+  },
+  optOutOfBeta: function () {
+    console.log(`[EngineWrapper/CNWBetaFacet] optOutOfBeta()`);
+  }
+};
 const _ME_UserAccountFacet = {};
-const _ME_BuildSettingsFacet = {};
+const _ME_BuildSettingsFacet = {
+    isDevBuild: true,
+};
 
 const _ME_TelemetryFacet = {
   fireEventButtonPressed: function (event) {
@@ -57,13 +67,31 @@ const _ME_ResourcePacksFacet = {
   texturePacks: {
     activeGlobal: [],
     active: [],
-    available: [],
+    available: [
+      {
+        image: "/hbui/assets/minecraft-texture-pack-31669.png",
+        name: "Minecraft",
+        description: "A test resource pack!",
+        id: "7f4bt1a2-43dd-45b1-aa3f-0b3ca2ebd5c8",
+        contentId: "7f4bt1a2-43dd-45b1-aa3f-0b3ca2ebd5c8",
+        isMarketplaceItem: false,
+      }
+    ],
     realms: [],
     unowned: [],
   },
   behaviorPacks: {
     active: [],
-    available: [],
+    available: [
+      {
+        image: "/hbui/assets/minecraft-texture-pack-31669.png",
+        name: "Minecraft",
+        description: "A test behavior pack!",
+        id: "7f4bt1a2-43dd-45b1-aa3f-0b3ca2ebd5c8",
+        contentId: "7f4bt1a2-43dd-45b1-aa3f-0b3ca2ebd5c8",
+        isMarketplaceItem: false,
+      }
+    ],
   },
   status: 0,
   marketplacePackId: "1",
@@ -85,7 +113,10 @@ const _ME_ResourcePacksFacet = {
     console.log("[EngineWrapper/RPFacet] deactivate()");
   },
 };
-const _ME_VanillaOptionsFacet = {};
+const _ME_VanillaOptionsFacet = {
+  renderDistance: 5,
+  defaultRenderDistance: 10,
+};
 
 const _ME_CreateNewWorldFacet = {
   isEditorWorld: false,
@@ -194,6 +225,14 @@ const _ME_LocaleFacet = {
 
 const _ME_SoundFacet = {
   play: function (id) {
+    fetch("/hbui/sound_definitions.json")
+    .then((response) => response.json())
+    .then((sounddat) => {
+      if(sounddat[id] && sounddat[id].sounds.length != false) {
+        let randomSound = sounddat[id].sounds[Math.floor(Math.random() * sounddat[id].sounds.length)].name;
+        new Audio(randomSound).play();
+      }
+    });
     console.log(`[EngineWrapper/SoundFacet] Sound ${id} requested.`);
   },
 };
@@ -377,6 +416,9 @@ const _ME_PlayerMessagingServiceFacet = {
           {
             id: "Dismiss",
             text: "Test",
+            reportClick: function () {
+              console.log("[EngineWrapper/PlayerMessagingServiceFacet] reportClick()");
+            },
           },
         ],
       },
@@ -410,6 +452,9 @@ const _ME_PlayerMessagingServiceFacet = {
           {
             id: "CallToAction",
             text: "Hello?",
+            reportClick: function () {
+              console.log("[EngineWrapper/PlayerMessagingServiceFacet] reportClick()");
+            },
           },
         ],
       },
@@ -438,55 +483,90 @@ const _ME_PlayerMessagingServiceFacet = {
           {
             id: "CallToAction",
             text: "Hello?",
+            reportClick: function () {
+              console.log("[EngineWrapper/PlayerMessagingServiceFacet] reportClick()");
+            },
           },
         ],
       },
     ],
   },
+  reportClick: function (a) {
+    console.log("[EngineWrapper/PlayerMessagingServiceFacet] reportClick.bind()");
+  },
+  reportDismiss: function (a) {
+    console.log("[EngineWrapper/PlayerMessagingServiceFacet] reportClick.bind()");
+  },
 };
 
-const _ME_SeedTemplatesFacet = {
-	templates: [
-      {
-        seedValue: "0",
-        title: "The Nothing Seed",
-        image: "/hbui/assets/world-preview-default-d72bc.jpg",
-      }
-	],
+const _ME_SimulationDistanceOptionsFacet = {
+  simulationDistanceOptions: [4, 6, 8, 10],
 };
-  
-const _ME_RealmsStoriesFacet = {
-    data: {
-      stories: [
-        {
-          id: 0,
-          isNewStoryPost: true,
-          body: "This is a test!",
-          image: "/hbui/assets/world-preview-default-d72bc.jpg",
-          author: {
-		    gamerTag: "Mojang",
-          },
-          timePosted: "2022-01-01",
-          totalComments: 1,
-          totalLikes: 1,
-          comments: [
-            {
-			  body: "This a comment",
-			  author: {
-			    gamerTag: "SomeoneRandom",
-			  },
-			},
-			{
-              body: "WoW Comments!",
-			  author: {
-			    gamerTag: "Mojang",
-			  },
-			}
-		  ],
-		},
-	  ],
-	  members: [],
-	},
+
+const _ME_PlayerReportFacet = {
+  reportPlayer: function(whereReport, reason, message, xuid, uuid) {
+    console.log("[EngineWrapper/PlayerReportFacet] reportPlayer()");
+  }
+};
+
+const _ME_MarketplaceSuggestionsFacet = {
+  getMorePacks: {
+    title: "test",
+    pageId: 0,
+  }
+};
+
+const _ME_PlayerBannedFacet = {
+  openBannedInfoPage: function () {
+    console.log("[EngineWrapper/PlayerBannedFacet] openBannedInfoPage()");
+  },
+};
+
+const _ME_DebugSettingsFacet = {
+  isBiomeOverrideActive: false,
+  flatNether: false,
+  dimension: 0,
+  allBiomes: [
+    {
+      label: "plains",
+      dimension: 0,
+      id: 0,
+    },
+    {
+      label: "birch_forest",
+      dimension: 0,
+      id: 1,
+    },
+    {
+      label: "jungle",
+      dimension: 0,
+      id: 2,
+    },
+    {
+      label: "hell",
+      dimension: 1,
+      id: 0,
+    },
+    {
+      label: "basalt_delta",
+      dimension: 1,
+      id: 1,
+    },
+    {
+      label: "warped_forest",
+      dimension: 1,
+      id: 2,
+    },
+    {
+      label: "crimson_forest",
+      dimension: 1,
+      id: 3,
+    },
+  ],
+  spawnDimensionId: 0,
+  spawnBiomeId: 0,
+  biomeOverrideId: 0,
+  defaultSpawnBiome: 0,
 };
 
 let _ME_Facets = {
@@ -508,11 +588,16 @@ let _ME_Facets = {
   "vanilla.createNewWorldBeta": _ME_CreateNewWorldBetaFacet,
   "vanilla.userAccount": _ME_UserAccountFacet,
   "vanilla.buildSettings": _ME_BuildSettingsFacet,
+  "vanilla.debugSettings": _ME_DebugSettingsFacet,
   "vanilla.resourcePacks": _ME_ResourcePacksFacet,
   "vanilla.options": _ME_VanillaOptionsFacet,
+  "vanilla.simulationDistanceOptions": _ME_SimulationDistanceOptionsFacet,
   "vanilla.seedTemplates": _ME_SeedTemplatesFacet,
   "vanilla.realmsStories": _ME_RealmsStoriesFacet,
   "vanilla.playermessagingservice": _ME_PlayerMessagingServiceFacet,
+  "vanilla.playerReport": _ME_PlayerReportFacet,
+  "vanilla.marketplaceSuggestions": _ME_MarketplaceSuggestionsFacet,
+  "vanilla.playerBanned": _ME_PlayerBannedFacet,
 };
 
 const TriggerEvent = {
