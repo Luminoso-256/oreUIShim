@@ -445,50 +445,6 @@ const _ME_PlayerMessagingServiceFacet = {
   },
 };
 
-const _ME_SeedTemplatesFacet = {
-	templates: [
-      {
-        seedValue: "0",
-        title: "The Nothing Seed",
-        image: "/hbui/assets/world-preview-default-d72bc.jpg",
-      }
-	],
-};
-  
-const _ME_RealmsStoriesFacet = {
-    data: {
-      stories: [
-        {
-          id: 0,
-          isNewStoryPost: true,
-          body: "This is a test!",
-          image: "/hbui/assets/world-preview-default-d72bc.jpg",
-          author: {
-		    gamerTag: "Mojang",
-          },
-          timePosted: "2022-01-01",
-          totalComments: 1,
-          totalLikes: 1,
-          comments: [
-            {
-			  body: "This a comment",
-			  author: {
-			    gamerTag: "SomeoneRandom",
-			  },
-			},
-			{
-              body: "WoW Comments!",
-			  author: {
-			    gamerTag: "Mojang",
-			  },
-			}
-		  ],
-		},
-	  ],
-	  members: [],
-	},
-};
-
 let _ME_Facets = {
   // == Core Facets == //
   "core.locale": _ME_LocaleFacet,
