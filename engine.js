@@ -259,7 +259,7 @@ const _ME_LocaleFacet = {
     if (USE_TRANSLATIONS) {
       let translation = _ME_Translations[id];
       for (i = 1; i <= params.length; i++) {
-        translation = translation?.replace("%" + i + "$s", params[i - 1])
+        translation = translation?.replaceAll("%" + i + "$s", params[i - 1])
       };
 
       return translation;
