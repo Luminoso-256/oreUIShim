@@ -168,10 +168,8 @@ const _ME_CreateNewWorldFacet = {
   isLockedTemplate: false,
   generalWarningState: 0,
   showedAchievementWarning: false,
-  applyTemplate: {
-    bind: function (a) {
-      console.log("[EngineWrapper/CNWFacet] applyTemplate.bind()");
-    },
+  applyTemplate: function (a) {
+    console.log("[EngineWrapper/CNWFacet] applyTemplate.bind()");
   },
   createOnRealms: {
     call: function () {
