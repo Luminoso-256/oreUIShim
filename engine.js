@@ -601,39 +601,34 @@ const _ME_DebugSettingsFacet = {
   dimension: 0,
   allBiomes: [
     {
+      id: "0",
       label: "plains",
       dimension: 0,
-      id: 0,
     },
     {
+      id: "1",
       label: "birch_forest",
       dimension: 0,
-      id: 1,
     },
     {
+      id: "2",
       label: "jungle",
       dimension: 0,
-      id: 2,
     },
     {
+      id: "3",
       label: "hell",
       dimension: 1,
-      id: 0,
     },
     {
+      id: "4",
       label: "basalt_delta",
       dimension: 1,
-      id: 1,
     },
     {
+      id: "5",
       label: "warped_forest",
       dimension: 1,
-      id: 2,
-    },
-    {
-      label: "crimson_forest",
-      dimension: 1,
-      id: 3,
     },
   ],
   spawnDimensionId: 0,
