@@ -642,6 +642,75 @@ const _ME_DebugSettingsFacet = {
   defaultSpawnBiome: 0,
 };
 
+const _ME_EditorFileFlags = {
+  None: 0,
+  New: 1,
+  Export: 2,
+  Close: 4,
+  Exit: 8,
+};
+const _ME_EditorEditFlags = {
+  None: 0,
+  Undo: 1,
+  Redo: 2,
+  Settings: 4,
+};
+const _ME_EditorWindowFlags = {
+  None: 0,
+  Preview: 1,
+  Selection: 2,
+  Palette: 4,
+  ShowUI: 8,
+  ResetUI: 16,
+};
+const _ME_EditorHelpFlags = {
+  None: 0,
+  Support: 1,
+  FAQ: 2,
+  Documentation: 4,
+};
+const _ME_EditorPrototypeFlags = {
+  None: 0,
+  Restart: 1,
+  SelectFlow: 2,
+  BrushFlow: 4,
+  CopyFlow: 8,
+  StampFlow: 16,
+  CreativePaletteFlow: 32,
+};
+const _ME_EditorActionFlags = {
+  None: 0,
+  Undo: 1,
+  Redo: 2,
+  Cut: 4,
+  Copy: 8,
+  Paste: 16,
+  Players: 32,
+  Sessions: 64,
+};
+const _ME_EditorThemes = {
+  Dark: 0,
+  Light: 1,
+  Redstone: 2,
+  HightContrast: 3,
+};
+const _ME_EditorFacet = {
+  editorTools: {
+    selectedTool: 0,
+  },
+  fileFlags: _ME_EditorFileFlags.New,
+  editFlags: _ME_EditorEditFlags.Settings,
+  windowFlags: _ME_EditorWindowFlags.ShowUI,
+  helpFlags: _ME_EditorHelpFlags.Documentation,
+  prototypeFlags: _ME_EditorPrototypeFlags.Restart,
+  actionFlags: _ME_EditorActionFlags.Players,
+  editorSettings: {
+    theme: _ME_EditorThemes.Dark,
+  }
+};
+
+const _ME_EditorInputFacet = {};
+
 const _ME_SocialFacet = {};
 const _ME_UserFacet = {};
 
@@ -683,6 +752,8 @@ let _ME_Facets = {
   "vanilla.playerReport": _ME_PlayerReportFacet,
   "vanilla.marketplaceSuggestions": _ME_MarketplaceSuggestionsFacet,
   "vanilla.playerBanned": _ME_PlayerBannedFacet,
+  "vanilla.editor": _ME_EditorFacet,
+  "vanilla.editorInput": _ME_EditorInputFacet,
 };
 
 const TriggerEvent = {
