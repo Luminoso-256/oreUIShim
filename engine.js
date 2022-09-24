@@ -393,7 +393,7 @@ const _ME_Platforms = {
   MACOS: 9,
   AMAZON_TV: 10,
   NX_TV: 11,
-  xPS5: 12,
+  PS5: 12,
 };
 
 const _ME_DeviceInfoFacet = {
