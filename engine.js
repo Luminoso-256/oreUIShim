@@ -16,34 +16,68 @@ const USE_TRANSLATIONS = true; //requires a loc.lang at base of host dir
 let _ME_OnBindings = {};
 let _ME_Translations = {};
 
+const _ME_AchievementsRewardFacet = {};
 const _ME_AchievementsFacet = {
   status: 1,
   data: {
-    achievementsUnlocked: 23,
-    maxGamerScore: 100,
+    achievementsUnlocked: 1,
+    maxGamerScore: 90,
     hoursPlayed: 100,
     achievements: [
       {
-        id: 0,
+        id: "0",
         name: "Placeholder Achievement",
         description: "Placeholderr!",
         gamerScore: 30,
         progress: 0,
-        progressTarget: 256,
+        progressTarget: 0,
         isLocked: false,
+        isSecret: false,
+        dateUnlocked: Date.now(),
+        hasReward: true,
+        isRewardOwned: false,
+        rewardId: "test",
+        rewardName: "Test",
+        rewardImage: "/hbui/assets/minecraft-texture-pack-31669.png",
+      },
+      {
+        id: "1",
+        name: "Placeholder Achievement",
+        description: "Placeholderr!",
+        gamerScore: 30,
+        progress: 0,
+        progressTarget: 0,
+        isLocked: true,
         isSecret: false,
         dateUnlocked: 0,
         hasReward: true,
-        rewardName: "some reward name",
         isRewardOwned: false,
+        rewardId: "test",
+        rewardName: "Test",
+        rewardImage: "/hbui/assets/minecraft-texture-pack-31669.png",
+      },
+      {
+        id: "2",
+        name: "Placeholder Achievement",
+        description: "Placeholderr!",
+        gamerScore: 30,
+        progress: 0.5,
+        progressTarget: 16,
+        isLocked: true,
+        isSecret: false,
+        dateUnlocked: 0,
+        hasReward: true,
+        isRewardOwned: false,
+        rewardId: "test",
+        rewardName: "Test",
+        rewardImage: "/hbui/assets/minecraft-texture-pack-31669.png",
       },
     ],
-    currentGamerScore: 100,
-    maxAchievements: 200,
+    currentGamerScore: 30,
+    maxAchievements: 3,
   },
 };
 
-//CNW screen breaks even more without these three but doesn't *yet* call anything from em so...
 const _ME_CreateNewWorldBetaFacet = {
   isBetaSupported: true,
   openFeedbackPage: function () {
@@ -53,7 +87,17 @@ const _ME_CreateNewWorldBetaFacet = {
     console.log(`[EngineWrapper/CNWBetaFacet] optOutOfBeta()`);
   }
 };
-const _ME_UserAccountFacet = {};
+const _ME_UserAccountFacet = {
+  isTrialAccount: false,
+  isLoggedInWithMicrosoftAccount: true,
+  hasPremiumNetworkAccess: true,
+  showPremiumNetworkUpsellModal: function () {
+    console.log(`[EngineWrapper/UserAccountFacet] showPremiumNetworkUpsellModal()`);
+  },
+  showMicrosoftAccountLogInScreen: function () {
+    console.log(`[EngineWrapper/UserAccountFacet] showMicrosoftAccountLogInScreen()`);
+  },
+};
 const _ME_BuildSettingsFacet = {
     isDevBuild: true,
 };
@@ -124,10 +168,8 @@ const _ME_CreateNewWorldFacet = {
   isLockedTemplate: false,
   generalWarningState: 0,
   showedAchievementWarning: false,
-  applyTemplate: {
-    bind: function (a) {
-      console.log("[EngineWrapper/CNWFacet] applyTemplate.bind()");
-    },
+  applyTemplate: function (a) {
+    console.log("[EngineWrapper/CNWFacet] applyTemplate.bind()");
   },
   createOnRealms: {
     call: function () {
@@ -213,7 +255,12 @@ const _ME_LocaleFacet = {
   },
   translateWithParameters: function (id, params) {
     if (USE_TRANSLATIONS) {
-      return _ME_Translations[id]; //TODO: implememt the parameters part of translateWithParameters
+      let translation = _ME_Translations[id];
+      for (i = 1; i <= params.length; i++) {
+        translation = translation?.replaceAll("%" + i + "$s", params[i - 1])
+      };
+
+      return translation;
     } else {
       console.warn(
         `[EngineWrapper/LocaleFacet] USE_TRANSLATIONS not set, skipping translate w/ param: ${id}`
@@ -221,19 +268,22 @@ const _ME_LocaleFacet = {
       return id;
     }
   },
+  formatDate: function (date) {
+    return new Date(date).toLocaleDateString();
+  },
 };
 
 const _ME_SoundFacet = {
   play: function (id) {
-    fetch("/hbui/sound_definitions.json")
-    .then((response) => response.json())
-    .then((sounddat) => {
-      if(sounddat[id] && sounddat[id].sounds.length != false) {
-        let randomSound = sounddat[id].sounds[Math.floor(Math.random() * sounddat[id].sounds.length)].name;
-        new Audio(randomSound).play();
-      }
-    });
     console.log(`[EngineWrapper/SoundFacet] Sound ${id} requested.`);
+    fetch("/hbui/sound_definitions.json")
+      .then((response) => response.json())
+      .then((sounddat) => {
+        if(sounddat[id] && sounddat[id].sounds.length != false) {
+          let randomSound = sounddat[id].sounds[Math.floor(Math.random() * sounddat[id].sounds.length)].name;
+          new Audio(randomSound).play();
+        }
+      });
   },
 };
 
@@ -284,8 +334,15 @@ const _ME_ScreenReaderFacet = {
   isUITextToSpeechEnabled: false,
 };
 
+const _ME_InputMethods = {
+  GAMEPAD_INPUT_METHOD: 0,
+  TOUCH_INPUT_METHOD: 1,
+  MOUSE_INPUT_METHOD: 2,
+  MOTION_CONTROLLER_INPUT_METHOD: 3,
+};
+
 const _ME_InputFacet = {
-  currentInputType: 2,
+  currentInputType: _ME_InputMethods.MOUSE_INPUT_METHOD,
   swapABButtons: false,
   acceptInputFromAllControllers: false,
   gameControllerId: 0,
@@ -323,13 +380,29 @@ const _ME_SafeZoneFacet = {
   screenPositionY: 0,
 };
 
+const _ME_Platforms = {
+  IOS: 0,
+  GOOGLE: 1,
+  AMAZON_HANDHELD: 2,
+  UWP: 3,
+  XBOX: 4,
+  NX_HANDHELD: 5,
+  PS4: 6,
+  GEARVR: 7,
+  WIN32: 8,
+  MACOS: 9,
+  AMAZON_TV: 10,
+  NX_TV: 11,
+  PS5: 12,
+};
+
 const _ME_DeviceInfoFacet = {
   pixelsPerMillimeter: 3,
-  inputMethods: [0, 1, 2], // Gamepad, Touch, Mouse?
+  inputMethods: [_ME_InputMethods.GAMEPAD_INPUT_METHOD, _ME_InputMethods.TOUCH_INPUT_METHOD, _ME_InputMethods.MOUSE_INPUT_METHOD],
   isLowMemoryDevice: false,
-  guiScaleBase: 3,
-  platform: 3, //TODO: Figure out platforms
-  guiScaleModifier: -1,
+  guiScaleBase: 4,
+  platform: _ME_Platforms.PS5,
+  guiScaleModifier: -2,
 };
   
 const _ME_RealmsStoriesFacet = {
@@ -528,45 +601,117 @@ const _ME_DebugSettingsFacet = {
   dimension: 0,
   allBiomes: [
     {
+      id: "0",
       label: "plains",
       dimension: 0,
-      id: 0,
     },
     {
+      id: "1",
       label: "birch_forest",
       dimension: 0,
-      id: 1,
     },
     {
+      id: "2",
       label: "jungle",
       dimension: 0,
-      id: 2,
     },
     {
+      id: "3",
       label: "hell",
       dimension: 1,
-      id: 0,
     },
     {
+      id: "4",
       label: "basalt_delta",
       dimension: 1,
-      id: 1,
     },
     {
+      id: "5",
       label: "warped_forest",
       dimension: 1,
-      id: 2,
-    },
-    {
-      label: "crimson_forest",
-      dimension: 1,
-      id: 3,
     },
   ],
   spawnDimensionId: 0,
   spawnBiomeId: 0,
   biomeOverrideId: 0,
   defaultSpawnBiome: 0,
+};
+
+const _ME_EditorFileFlags = {
+  None: 0,
+  New: 1,
+  Export: 2,
+  Close: 4,
+  Exit: 8,
+};
+const _ME_EditorEditFlags = {
+  None: 0,
+  Undo: 1,
+  Redo: 2,
+  Settings: 4,
+};
+const _ME_EditorWindowFlags = {
+  None: 0,
+  Preview: 1,
+  Selection: 2,
+  Palette: 4,
+  ShowUI: 8,
+  ResetUI: 16,
+};
+const _ME_EditorHelpFlags = {
+  None: 0,
+  Support: 1,
+  FAQ: 2,
+  Documentation: 4,
+};
+const _ME_EditorPrototypeFlags = {
+  None: 0,
+  Restart: 1,
+  SelectFlow: 2,
+  BrushFlow: 4,
+  CopyFlow: 8,
+  StampFlow: 16,
+  CreativePaletteFlow: 32,
+};
+const _ME_EditorActionFlags = {
+  None: 0,
+  Undo: 1,
+  Redo: 2,
+  Cut: 4,
+  Copy: 8,
+  Paste: 16,
+  Players: 32,
+  Sessions: 64,
+};
+const _ME_EditorThemes = {
+  Dark: 0,
+  Light: 1,
+  Redstone: 2,
+  HightContrast: 3,
+};
+const _ME_EditorFacet = {
+  editorTools: {
+    selectedTool: 0,
+  },
+  fileFlags: _ME_EditorFileFlags.New,
+  editFlags: _ME_EditorEditFlags.Settings,
+  windowFlags: _ME_EditorWindowFlags.ShowUI,
+  helpFlags: _ME_EditorHelpFlags.Documentation,
+  prototypeFlags: _ME_EditorPrototypeFlags.Restart,
+  actionFlags: _ME_EditorActionFlags.Players,
+  editorSettings: {
+    theme: _ME_EditorThemes.Dark,
+  }
+};
+
+const _ME_EditorInputFacet = {};
+
+const _ME_SocialFacet = {};
+const _ME_UserFacet = {};
+
+const _ME_CustomScalingFacet = {
+  scalingModeOverride: 0,
+  fixedGuiScaleModifier: 0,
 };
 
 let _ME_Facets = {
@@ -579,10 +724,14 @@ let _ME_Facets = {
   "core.input": _ME_InputFacet,
   "core.screenReader": _ME_ScreenReaderFacet,
   "core.router": _ME_RouterFacet,
+  "core.customScaling": _ME_CustomScalingFacet,
   "core.animation": _ME_AnimationFacet,
   "core.sound": _ME_SoundFacet,
+  "core.social": _ME_SocialFacet,
+  "core.user": _ME_UserFacet,
   // == Vanilla Facets == //
   "vanilla.achievements": _ME_AchievementsFacet,
+  "vanilla.achievementsReward": _ME_AchievementsRewardFacet,
   "vanilla.createNewWorld": _ME_CreateNewWorldFacet,
   "vanilla.telemetry": _ME_TelemetryFacet,
   "vanilla.createNewWorldBeta": _ME_CreateNewWorldBetaFacet,
@@ -598,6 +747,8 @@ let _ME_Facets = {
   "vanilla.playerReport": _ME_PlayerReportFacet,
   "vanilla.marketplaceSuggestions": _ME_MarketplaceSuggestionsFacet,
   "vanilla.playerBanned": _ME_PlayerBannedFacet,
+  "vanilla.editor": _ME_EditorFacet,
+  "vanilla.editorInput": _ME_EditorInputFacet,
 };
 
 const TriggerEvent = {
@@ -664,7 +815,7 @@ if (USE_TRANSLATIONS) {
       let lines = locdat.split("\n");
       lines.forEach(function (item, ind) {
         keyval = item.split("=");
-        _ME_Translations[keyval[0]] = keyval[1].replace("\r", ""); //oh windows you special snowflake
+        _ME_Translations[keyval[0]] = keyval[1]?.replace("\r", ""); //oh windows you special snowflake
       });
     })
     .then(() => {
