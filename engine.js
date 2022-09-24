@@ -12,7 +12,6 @@ if (navigator.userAgent.match("/cohtml/i")) {
 }
 
 const USE_TRANSLATIONS = true; //requires a loc.lang at base of host dir
-const FIX_CSS = true;
 
 let _ME_OnBindings = {};
 let _ME_Translations = {};
@@ -738,37 +737,6 @@ const engine = {
   BindingsReady: function () {
     console.log("[EngineWrapper] BindingsReady called");
   },
-};
-
-if(FIX_CSS) {
-  console.log(
-    "[EngineWrapper] Enabling The CSS Fixer."
-  );
-    
-  setInterval(() => {
-    for(const element of document.getElementsByClassName("Rheyt")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("_3bnXm")) { element.style.width = "auto"; };
-    if(document.getElementsByClassName("_3UIvq").length > 0) { for(const element of document.getElementsByClassName("_7j0o7")) { element.style.maxWidth = "64.8rem"; }; }
-    else if(document.getElementsByClassName("_48RQp").length > 0) { for(const element of document.getElementsByClassName("_7j0o7")) { element.style.maxWidth = "55.6rem"; }; }
-    else if(_ME_RouterFacet.history.location.pathname?.startsWith("/announcement-modal/")) { document.getElementsByClassName("e_3qS _3d-u6 _2mAPi _NB-N")[0].getElementsByTagName("div")[0].style.aspectRatio = "16/9"; for(const element of document.getElementsByClassName("_7j0o7")) { element.style.maxWidth = "55.6rem"; }; }
-    for(const element of document.getElementsByClassName("_1BxDM -T44q _2XqUR")) { element.style.height = "fit-content"; element.style.overflowY = "auto"; };
-    for(const element of document.getElementsByClassName("wchNY _2XqUR _3xGVP")) { element.style.overflowY = "auto"; };
-    for(const element of document.getElementsByClassName("_1bsyx")) { element.style.width = "100%"; };
-    for(const element of document.getElementsByClassName("_2D-VK")) { element.style.flexWrap = "unset"; };
-    for(const element of document.getElementsByClassName("_324PO")) { element.style.height = "2.6rem"; };
-    for(const element of document.getElementsByClassName("LHyA2 QfYQK")) { element.style.minHeight = "2.8rem"; };
-    for(const element of document.getElementsByClassName("_1QHCp _2JFdt")) { element.style.overflow = "hidden"; };
-    for(const element of document.getElementsByClassName("_3Dx4x")) { element.style.width = "6.9rem"; };
-    for(const element of document.getElementsByClassName("_3ofBV")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("Nwl3_")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("_1BYUv")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("_14je7")) { element.style.width = "auto"; element.style.height = "6.4rem"; };
-    for(const element of document.getElementsByClassName("HrxNO")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("OK99e")) { element.style.width = "auto"; };
-    for(const element of document.getElementsByClassName("_33upF")) { element.style.overflowY = "auto"; };
-    for(const element of document.getElementsByClassName("KNGjB")) { element.style.minHeight = "100%"; element.style.height = "fit-content"; };
-    for(const element of document.getElementsByClassName("_1q1my")) { element.style.overflowY = "hidden"; };
-  });
 };
 
 if (USE_TRANSLATIONS) {
